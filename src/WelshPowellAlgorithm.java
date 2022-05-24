@@ -50,12 +50,12 @@ public class WelshPowellAlgorithm {
                 this.colorSet.put(tempId, color);
 
                 for (int i = 0; i < pqList.size(); i++) {
-                    if (pqList.contains(this.graph.getAdjacencyMatrix()[i]) && isAdjacent(tempId, i)) {
+                    if (pqList.contains(this.graph.getAdjacencyMatrix()[i]) && isAdjacent(tempId, this.arrayMap.get(pqList.get(i)))) {
                         pqList.remove(i);
                     }
                 }
 
-                if (this.arrayMap.get(pqList.get(0)) == tempId) pqList.remove(0);
+                pqList.remove(0);
             }
             color++;
         }
