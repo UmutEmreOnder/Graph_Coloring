@@ -49,7 +49,7 @@ public class WelshPowellAlgorithm {
                 int tempId = this.arrayMap.get(pqList.get(0));
                 this.colorSet.put(tempId, color);
 
-                for (int i = 0; i < pqList.size(); i++) {
+                for (int i = 1; i < pqList.size(); i++) {
                     if (pqList.contains(this.graph.getAdjacencyMatrix()[i]) && isAdjacent(tempId, this.arrayMap.get(pqList.get(i)))) {
                         pqList.remove(i);
                     }

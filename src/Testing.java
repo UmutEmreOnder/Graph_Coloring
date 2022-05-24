@@ -4,7 +4,7 @@ public class Testing {
     public static void main(String[] args) {
         Graph graph = new Graph();
 
-        graph.readFile("sample2.txt");
+        graph.readFile("sampleOfReport.txt");
 
         WelshPowellAlgorithm wp = new WelshPowellAlgorithm(graph);
 
