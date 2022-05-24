@@ -12,25 +12,7 @@ public class WelshPowellAlgorithm {
         this.colorSet = new HashMap<>();
         this.arrayMap = new HashMap<>();
         this.color = 0;
-        this.sortedVertices = new PriorityQueue<>(new TheComparator());
-    }
-
-    static class TheComparator implements Comparator<int[]> {
-
-        @Override
-        public int compare(int[] t1, int[] t2) {
-            return Integer.compare(calculateDegree(t2), calculateDegree(t1));
-        }
-
-        public int calculateDegree(int[] t1) {
-            int degree = 0;
-
-            for (int j : t1) {
-                degree += j;
-            }
-
-            return degree;
-        }
+        this.sortedVertices = new PriorityQueue<>((t1, t2) -> -calculateDegree(t1, this.arrayMap.get(t1)) + calculateDegree(t2, this.arrayMap.get(t2)));
     }
 
     public void fillColorMap() {
@@ -62,8 +44,18 @@ public class WelshPowellAlgorithm {
 
     }
 
+    public int calculateDegree(int[] t1, int id) {
+        int degree = 0;
+
+        for (int i = 0; i < t1.length; i++) {
+            degree += id == i ? t1[i] * 2 : t1[i];
+        }
+
+        return degree;
+    }
+
     public PriorityQueue<int[]> constructPqOfNonAdjacencyVertices(int id) {
-        PriorityQueue<int[]> pq = new PriorityQueue<>(new TheComparator());
+        PriorityQueue<int[]> pq = new PriorityQueue<>((t1, t2) -> calculateDegree(t1, this.arrayMap.get(t1)) - calculateDegree(t2, this.arrayMap.get(t2)));
         int length = this.graph.getNumVertices();
         for (int i = 0; i < length; i++) {
             if (i != id && this.graph.getAdjacencyMatrix()[id][i] == 0 && !this.colorSet.containsKey(i)) {

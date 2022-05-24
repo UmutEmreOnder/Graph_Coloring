@@ -4,13 +4,15 @@ public class Testing {
     public static void main(String[] args) {
         Graph graph = new Graph();
 
-        graph.readFile("sampleOfReport.txt");
+        graph.readFile("sample3.txt");
 
         WelshPowellAlgorithm wp = new WelshPowellAlgorithm(graph);
 
         wp.fillColorMap();
 
         System.out.println(wp.getColor());
+
+
 
         printMap(wp.getColorSet());
     }
