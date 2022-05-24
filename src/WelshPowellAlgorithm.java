@@ -55,7 +55,7 @@ public class WelshPowellAlgorithm {
                     }
                 }
 
-                pqList.remove(0);
+                if (this.arrayMap.get(pqList.get(0)) == tempId) pqList.remove(0);
             }
             color++;
         }
