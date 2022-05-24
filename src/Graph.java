@@ -25,12 +25,12 @@ public class Graph {
     }
 
     public void createAdjacencyMatrix() {
-        adjacencyMatrix = new int[numVertices + 1][numVertices + 1];
+        adjacencyMatrix = new int[numVertices][numVertices];
 
         while (fileReader.hasNextLine()) {
             fileReader.next();
-            int num1 = fileReader.nextInt();
-            int num2 = fileReader.nextInt();
+            int num1 = fileReader.nextInt() - 1;
+            int num2 = fileReader.nextInt() - 1;
             adjacencyMatrix[num1][num2]++;
             adjacencyMatrix[num2][num1]++;
         }
