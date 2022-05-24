@@ -37,11 +37,44 @@ public class WelshPowellAlgorithm {
         fillArrayMap();
         sortArraysByDegree();
 
-        this.colorSet.put(this.arrayMap.get(this.sortedVertices.poll()), color++);
+        while(this.colorSet.size() != this.graph.getNumVertices()) {
+            int arrayID = this.arrayMap.get(this.sortedVertices.poll());
+            if (this.colorSet.containsKey(arrayID)) continue;
 
+            this.colorSet.put(arrayID, color);
+
+            List<int[]> pqList = findNonAdjacencyVertices(arrayID);
+
+            while (!pqList.isEmpty()) {
+                int tempId = this.arrayMap.get(pqList.get(0));
+                this.colorSet.put(tempId, color);
+
+                for (int i = 0; i < pqList.size(); i++) {
+                    if (pqList.contains(this.graph.getAdjacencyMatrix()[i]) && isAdjacent(tempId, i)) {
+                        pqList.remove(i);
+                    }
+                }
+
+                pqList.remove(0);
+            }
+            color++;
+        }
+
+    }
+
+    public PriorityQueue<int[]> constructPqOfNonAdjacencyVertices(int id) {
+        PriorityQueue<int[]> pq = new PriorityQueue<>(new TheComparator());
         int length = this.graph.getNumVertices();
+        for (int i = 0; i < length; i++) {
+            if (i != id && this.graph.getAdjacencyMatrix()[id][i] == 0 && !this.colorSet.containsKey(i)) {
+                pq.add(this.graph.getAdjacencyMatrix()[i]);
+            }
+        }
+        return pq;
+    }
 
-
+    public ArrayList<int[]> findNonAdjacencyVertices(int id) {
+        return new ArrayList<>(constructPqOfNonAdjacencyVertices(id));
     }
 
     public void fillArrayMap() {
@@ -52,16 +85,6 @@ public class WelshPowellAlgorithm {
 
     public void sortArraysByDegree() {
         this.sortedVertices.addAll(Arrays.asList(this.graph.getAdjacencyMatrix()));
-    }
-
-    public boolean isValid(int i, int j, int length) {
-        for (int k = 0; k < length; k++) {
-            if (isAdjacent(i, k) && this.colorSet.containsKey(k) && Objects.equals(this.colorSet.get(j), this.colorSet.get(k))) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     public boolean isAdjacent(int i, int j) {
