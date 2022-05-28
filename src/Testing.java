@@ -1,12 +1,10 @@
+import java.util.Map;
+
 public class Testing {
     public static void main(String[] args) {
         Graph graph = new Graph();
 
-        graph.readFile("test.txt");
-
-        System.out.println("Number of edges : " + graph.getNumEdges() + "\nNumber of Vertices : " + graph.getNumEdges());
-
-        printArray(graph.getAdjacencyMatrix());
+        graph.readFile("sample3.txt");
     }
 
     public static void printArray(int[][] array) {
@@ -16,6 +14,12 @@ public class Testing {
                 System.out.print(array[i][j] + " ");
             }
             System.out.println();
+        }
+    }
+
+    public static void printMap(Map<Integer, Integer> colorSet) {
+        for (Integer key: colorSet.keySet()) {
+            System.out.print(colorSet.get(key) + " ");
         }
     }
 }
