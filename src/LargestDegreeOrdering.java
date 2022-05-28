@@ -58,6 +58,29 @@ public class LargestDegreeOrdering {
         return -1;
     }
 
+    public void solve() {
+        while (!this.sortedGraph.isEmpty()) {
+            int ID = this.arrayMap.get(this.sortedGraph.poll());
+
+            for (int i = 0; i <= color; i++) {
+                boolean valid = isValid(ID, i, this.graph.getNumVertices());
+                if (valid) {
+                    this.colorSet.put(ID, i);
+                    color = i == color ? color + 1 : color;
+                    break;
+                }
+            }
+        }
+    }
+
+    public void printMap() {
+        System.out.println(this.findMax() + 1);
+        for (Integer key: this.getColorSet().keySet()) {
+            System.out.print(this.getColorSet().get(key) + " ");
+        }
+        System.out.println();
+    }
+
     public boolean isValid(int ID, int value, int length) {
         for (int k = 0; k < length; k++) {
             if (isAdjacent(ID, k) && this.colorSet.containsKey(k) && this.colorSet.get(k) == value) {

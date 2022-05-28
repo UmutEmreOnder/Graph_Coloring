@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Possibilities {
     List<LargestDegreeOrdering> listLDO;
@@ -18,25 +17,28 @@ public class Possibilities {
     }
 
     public void createLDOS() {
+        int min = Integer.MAX_VALUE;
         while (true) {
             int size = this.listLDO.size();
 
-            for (int i = 0; i < size; i++) {
-                LargestDegreeOrdering headLdo = this.listLDO.get(i);
-                for (int k = 0; k < headLdo.getColor(); k++) {
-                    LargestDegreeOrdering ldo = new LargestDegreeOrdering(headLdo);
-                    k = ldo.addColor(k);
-                    if(k != -1) {
-                        this.listLDO.add(ldo);
-                    } else {
-                        break;
-                    }
+            LargestDegreeOrdering headLdo = this.listLDO.get(0);
+            for (int k = 0; k < headLdo.getColor(); k++) {
+                LargestDegreeOrdering ldo = new LargestDegreeOrdering(headLdo);
+                k = ldo.addColor(k);
+                if(k != -1 && ldo.findMax() + 1 < min) {
+                    this.listLDO.add(ldo);
+                } else {
+                    break;
                 }
             }
 
             if (this.listLDO.size() == size) break;
-            else {
-                this.listLDO.subList(0, size).clear();
+            LargestDegreeOrdering removed = this.listLDO.remove(0);
+            removed.solve();
+
+            if (removed.getColorSet().size() == removed.getGraph().getNumVertices() && min > removed.findMax()) {
+                min = removed.findMax();
+                removed.printMap();
             }
 
             System.gc();
