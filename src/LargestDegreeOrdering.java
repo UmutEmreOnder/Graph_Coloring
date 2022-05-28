@@ -18,6 +18,14 @@ public class LargestDegreeOrdering {
                 (-calculateDegree(t1, this.arrayMap.get(t1)) + calculateDegree(t2, this.arrayMap.get(t2))));
     }
 
+    public LargestDegreeOrdering(LargestDegreeOrdering headLdo) {
+        this.colorSet = new HashMap<>(headLdo.colorSet);
+        this.arrayMap = new HashMap<>(headLdo.arrayMap);
+        this.graph = headLdo.graph;
+        this.color = headLdo.color;
+        this.sortedGraph = new PriorityQueue<>(headLdo.sortedGraph);
+    }
+
     public int calculateDegree(int[] t1, int id) {
         int degree = 0;
 
@@ -28,26 +36,26 @@ public class LargestDegreeOrdering {
         return degree;
     }
 
-    public void fillColorMap() {
+    public void startProcess() {
         fillArrayMap();
         sortArraysByDegree();
+    }
 
-        while (!this.sortedGraph.isEmpty()) {
+    public int addColor(int startIndex) {
+        if (!this.sortedGraph.isEmpty()) {
             int ID = this.arrayMap.get(this.sortedGraph.poll());
 
-            for (int i = 0; i < color; i++) {
+            for (int i = startIndex; i <= color; i++) {
                 boolean valid = isValid(ID, i, this.graph.getNumVertices());
-
                 if (valid) {
                     this.colorSet.put(ID, i);
-                    break;
+                    color = i == color ? color + 1 : color;
+                    return i;
                 }
             }
-
-            if (!this.colorSet.containsKey(ID)) {
-                this.colorSet.put(ID, color++);
-            }
         }
+
+        return -1;
     }
 
     public boolean isValid(int ID, int value, int length) {
@@ -58,6 +66,14 @@ public class LargestDegreeOrdering {
         }
 
         return true;
+    }
+
+    public int findMax() {
+        int max = 0;
+        for (Integer key: colorSet.keySet()) {
+            max = Math.max(colorSet.get(key), max);
+        }
+        return max;
     }
 
 

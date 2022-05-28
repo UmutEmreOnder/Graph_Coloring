@@ -1,18 +1,14 @@
-import java.util.Map;
-
 public class Testing {
     public static void main(String[] args) {
         Graph graph = new Graph();
 
-        graph.readFile("sample3.txt");
+        graph.readFile("sampleOfReport.txt");
 
-        LargestDegreeOrdering ldo = new LargestDegreeOrdering(graph);
-
-        ldo.fillColorMap();
-
-        System.out.println(ldo.getColor());
-
-        printMap(ldo.getColorSet());
+        Possibilities possibilities = new Possibilities(graph);
+        possibilities.addFirst();
+        possibilities.createLDOS();
+        System.out.println(possibilities.findMaxOfMin());
+        possibilities.printMap();
     }
 
     public static void printArray(int[] array) {
@@ -22,9 +18,5 @@ public class Testing {
         System.out.println();
     }
 
-    public static void printMap(Map<Integer, Integer> colorSet) {
-        for (Integer key: colorSet.keySet()) {
-            System.out.print(colorSet.get(key) + " ");
-        }
-    }
+
 }
