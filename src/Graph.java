@@ -7,7 +7,6 @@ public class Graph {
     private int numVertices, numEdges;
     private int[][] adjacencyMatrix;
     private Scanner fileReader;
-    private Set<String> edgeSet;
 
     public void readFile(String fileName) {
         File file;
@@ -36,18 +35,19 @@ public class Graph {
     public int createFile(int numVertices) throws IOException {
         int edges = 0;
         File file = new File("created.txt");
-        this.edgeSet = new HashSet<>();
+        Set<String> edgeSet = new HashSet<>();
 
         FileWriter fileWriter = new FileWriter(file);
         fileWriter.write("p " + numVertices + " " + 0 + "\n");
         for (int i = 1; i <= numVertices; i++) {
             Random random = new Random();
-            int edge = random.nextInt(6);
+            int edge = random.nextInt((int) Math.sqrt(numVertices));
             edges += edge;
             for (int j = 0; j < edge; j++) {
                 int vertex = random.nextInt(numVertices) + 1;
-                if (!this.edgeSet.contains(createString(i, vertex)) && i != vertex) {
+                if (!edgeSet.contains(createString(i, vertex)) && i != vertex) {
                     fileWriter.write("e " + i + " " + vertex + "\n");
+                    edgeSet.add(createString(i, vertex));
                 }
                 else {
                     edges--;

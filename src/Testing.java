@@ -5,8 +5,9 @@ public class Testing {
     public static void main(String[] args) throws IOException {
         Graph graph = new Graph();
 
-        graph.readFile(15);
+        graph.readFile(10);
 
+        printArray(graph.getAdjacencyMatrix());
     }
 
     public static void printArray(int[][] array) {
