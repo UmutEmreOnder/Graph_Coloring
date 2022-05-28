@@ -1,10 +1,12 @@
+import java.io.IOException;
 import java.util.Map;
 
 public class Testing {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Graph graph = new Graph();
 
-        graph.readFile("sample3.txt");
+        graph.readFile(15);
+
     }
 
     public static void printArray(int[][] array) {
