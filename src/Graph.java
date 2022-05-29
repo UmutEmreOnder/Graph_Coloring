@@ -1,5 +1,7 @@
 import java.io.File;
-import java.util.Scanner;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
 
 public class Graph {
     private int numVertices, numEdges;
@@ -24,10 +26,46 @@ public class Graph {
         createAdjacencyMatrix();
     }
 
+    public void readFile(int numVertices) throws IOException {
+        int temp = createFile(numVertices);
+        readFile("created.txt");
+        this.numEdges = temp;
+    }
+
+    public int createFile(int numVertices) throws IOException {
+        int edges = 0;
+        File file = new File("created.txt");
+        Set<String> edgeSet = new HashSet<>();
+
+        FileWriter fileWriter = new FileWriter(file);
+        fileWriter.write("p " + numVertices + " " + 0 + "\n");
+        for (int i = 1; i <= numVertices; i++) {
+            Random random = new Random();
+            int edge = random.nextInt(numVertices);
+            edges += edge;
+            for (int j = 0; j < edge; j++) {
+                int vertex = random.nextInt(numVertices) + 1;
+                if (!edgeSet.contains(createString(i, vertex)) && i != vertex) {
+                    fileWriter.write("e " + i + " " + vertex + "\n");
+                    edgeSet.add(createString(i, vertex));
+                }
+                else {
+                    edges--;
+                }
+            }
+        }
+        fileWriter.close();
+        return edges;
+    }
+
+    public String createString(int a, int b) {
+        return a <= b ? a + " -> " + b : b + " -> " + a;
+    }
+
     public void createAdjacencyMatrix() {
         adjacencyMatrix = new int[numVertices][numVertices];
 
-        while (fileReader.hasNextLine()) {
+        while (fileReader.hasNext()) {
             fileReader.next();
             int num1 = fileReader.nextInt() - 1;
             int num2 = fileReader.nextInt() - 1;

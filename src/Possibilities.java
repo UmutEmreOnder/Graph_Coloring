@@ -18,6 +18,7 @@ public class Possibilities {
 
     public void createLDOS() {
         int min = Integer.MAX_VALUE;
+        long start = System.currentTimeMillis();
         while (true) {
             int size = this.listLDO.size();
 
@@ -32,17 +33,20 @@ public class Possibilities {
                 }
             }
 
-            if (this.listLDO.size() == size) break;
+            if (this.listLDO.size() == size || System.currentTimeMillis() - start >= 60000){
+                break;
+            }
+
             LargestDegreeOrdering removed = this.listLDO.remove(0);
             removed.solve();
 
             if (removed.getColorSet().size() == removed.getGraph().getNumVertices() && min > removed.findMax()) {
                 min = removed.findMax();
-                removed.printMap();
+                result = removed;
             }
-
             System.gc();
         }
+        printMap();
     }
 
     public void printList() {
@@ -52,6 +56,7 @@ public class Possibilities {
     }
 
     public void printMap() {
+        System.out.println(result.findMax() + 1);
         for (Integer key: result.getColorSet().keySet()) {
             System.out.print(result.getColorSet().get(key) + " ");
         }
