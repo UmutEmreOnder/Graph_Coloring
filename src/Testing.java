@@ -1,23 +1,26 @@
-import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 public class Testing {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         Graph graph = new Graph();
 
-        graph.readFile(10);
+        graph.readFile("sampleOfReport.txt");
 
-        printArray(graph.getAdjacencyMatrix());
+        RecursiveLargestFirst recursiveLargestFirst = new RecursiveLargestFirst(graph);
+
+        recursiveLargestFirst.startProcess();
+
+        System.out.println(recursiveLargestFirst.getColor() + 1);
+
+        printMap(recursiveLargestFirst.getColorSet());
     }
 
-    public static void printArray(int[][] array) {
-        int length = array.length;
-        for (int i = 1; i < length; i++) {
-            for (int j = 1; j < length; j++) {
-                System.out.print(array[i][j] + " ");
-            }
-            System.out.println();
+    public static void printArray(List<Integer> array) {
+        for (Integer integer : array) {
+            System.out.print((integer + 1) + " ");
         }
+        System.out.println();
     }
 
     public static void printMap(Map<Integer, Integer> colorSet) {
