@@ -41,7 +41,7 @@ public class Graph {
         fileWriter.write("p " + numVertices + " " + 0 + "\n");
         for (int i = 1; i <= numVertices; i++) {
             Random random = new Random();
-            int edge = random.nextInt((int) Math.sqrt(numVertices));
+            int edge = random.nextInt(numVertices);
             edges += edge;
             for (int j = 0; j < edge; j++) {
                 int vertex = random.nextInt(numVertices) + 1;

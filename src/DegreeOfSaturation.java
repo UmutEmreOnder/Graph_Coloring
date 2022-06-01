@@ -1,21 +1,21 @@
 import java.util.*;
 
-public class LargestDegreeOrdering {
+public class DegreeOfSaturation {
     private Map<Integer, Integer> colorSet;
     private Map<int[], Integer> arrayMap;
     private Graph graph;
     private int color;
     private PriorityQueue<int[]> sortedGraph;
 
-    public LargestDegreeOrdering(Graph graph) {
+    public DegreeOfSaturation(Graph graph) {
         this.colorSet = new HashMap<>();
         this.arrayMap = new HashMap<>();
         this.graph = graph;
         this.color = 0;
         this.sortedGraph = new PriorityQueue<>(
                 (t1, t2) -> (-calculateDegree(t1, this.arrayMap.get(t1)) + calculateDegree(t2, this.arrayMap.get(t2))) == 0 ?
-                (this.arrayMap.get(t1) - this.arrayMap.get(t2)) :
-                (-calculateDegree(t1, this.arrayMap.get(t1)) + calculateDegree(t2, this.arrayMap.get(t2))));
+                        (this.arrayMap.get(t1) - this.arrayMap.get(t2)) :
+                        (-calculateDegree(t1, this.arrayMap.get(t1)) + calculateDegree(t2, this.arrayMap.get(t2))));
     }
 
     public int calculateDegree(int[] t1, int id) {
@@ -28,26 +28,63 @@ public class LargestDegreeOrdering {
         return degree;
     }
 
-    public void fillColorMap() {
+
+    public void startProcess() {
         fillArrayMap();
         sortArraysByDegree();
+        fillColorMap();
+    }
 
-        while (!this.sortedGraph.isEmpty()) {
-            int ID = this.arrayMap.get(this.sortedGraph.poll());
+    public void fillColorMap() {
+        colorFirstOne();
 
-            for (int i = 0; i < color; i++) {
+        while (this.colorSet.size() != this.graph.getNumVertices()) {
+            int ID = findMaxDiffAdjacentColorOfUncoloredVertex();
+
+            for (int i = 0; i <= color; i++) {
                 boolean valid = isValid(ID, i, this.graph.getNumVertices());
 
                 if (valid) {
                     this.colorSet.put(ID, i);
+                    if (i == color) color++;
                     break;
                 }
             }
+        }
+    }
 
-            if (!this.colorSet.containsKey(ID)) {
-                this.colorSet.put(ID, color++);
+    public int findMaxDiffAdjacentColorOfUncoloredVertex() {
+        int ID = 0;
+        int max = 0;
+
+
+        for (int i = 0; i < this.graph.getNumVertices(); i++) {
+            Set<Integer> colors = new HashSet<>();
+            if (colorSet.containsKey(i)) continue;
+
+            for (int k = 0; k < this.graph.getNumVertices(); k++) {
+                if (isAdjacent(i, k) && this.colorSet.containsKey(k)) {
+                    colors.add(this.colorSet.get(k));
+                }
+            }
+
+            if (max < colors.size()) {
+                ID = i;
+                max = colors.size();
+            }
+            else if (max == colors.size()) {
+                if (calculateDegree(this.graph.getAdjacencyMatrix()[ID], ID) < calculateDegree(this.graph.getAdjacencyMatrix()[i], i)) {
+                    ID = i;
+                }
             }
         }
+
+        return ID;
+    }
+
+    public void colorFirstOne() {
+        int ID = this.arrayMap.get(this.sortedGraph.poll());
+        this.colorSet.put(ID, color++);
     }
 
     public boolean isValid(int ID, int value, int length) {
@@ -116,4 +153,6 @@ public class LargestDegreeOrdering {
     public void setSortedGraph(PriorityQueue<int[]> sortedGraph) {
         this.sortedGraph = sortedGraph;
     }
+
+
 }
