@@ -5,7 +5,7 @@ public class Testing {
     public static void main(String[] args) {
         Graph graph = new Graph();
 
-        graph.readFile("sampleOfReport.txt");
+        graph.readFile("sample3.txt");
 
         RecursiveLargestFirst recursiveLargestFirst = new RecursiveLargestFirst(graph);
 
