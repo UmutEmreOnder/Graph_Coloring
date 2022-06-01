@@ -21,4 +21,4 @@ Because, it is not good enough. Even though it has better time complexity than F
 | sample3.txt |        500         |      58862      |     122     |              134              |
 
 
-Actually, I was expecting LDO would be worse than WP. However, it is better than for sample2 and sample3. Nonetheless, the answer is still too far from the real answer for sample2.
+Actually, I was expecting LDO would be worse than WP. However, it is better than for sample2 and sample3. The answer is still too far from the real answer for sample2.
