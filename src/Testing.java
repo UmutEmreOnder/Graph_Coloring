@@ -1,25 +1,19 @@
 import java.util.Map;
-
 import java.io.IOException;
-import java.util.Map;
+
 
 public class Testing {
     public static void main(String[] args) throws IOException {
         Graph graph = new Graph();
 
         graph.readFile(10);
-
-        printArray(graph.getAdjacencyMatrix());
     }
 
-    public static void printArray(int[][] array) {
-        int length = array.length;
-        for (int i = 1; i < length; i++) {
-            for (int j = 1; j < length; j++) {
-                System.out.print(array[i][j] + " ");
-            }
-            System.out.println();
+    public static void printArray(int[] array) {
+        for (int k : array) {
+            System.out.print(k + " ");
         }
+        System.out.println();
     }
 
     public static void printMap(Map<Integer, Integer> colorSet) {
