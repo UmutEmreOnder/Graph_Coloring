@@ -46,7 +46,6 @@ public class RecursiveLargestFirst {
         }
 
         while (true) {
-            System.out.println((selected + 1));
             List<Integer> notAdjacent = new ArrayList<>();
             for (int i = 0; i < this.graph.getNumVertices(); i++) {
                 if (!adjacent.contains(i) && !this.colorSet.containsKey(i)) notAdjacent.add(i);
@@ -88,7 +87,6 @@ public class RecursiveLargestFirst {
 
 
         if (this.colorSet.size() != this.graph.getNumVertices()) {
-            System.out.println((selected + 1));
             color++;
             fillColorMap(findUncoloredWithMaxAdjacent());
         }
