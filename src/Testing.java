@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.FileWriter;
 import java.util.Map;
 import java.io.IOException;
 
@@ -6,15 +8,13 @@ public class Testing {
     public static void main(String[] args) throws IOException {
         Graph graph = new Graph();
 
-        graph.readFile(10240);
+        graph.readFile("sample3.txt");
 
-        System.out.println("Vertices = " + graph.getNumVertices() + " Edge = " + graph.getNumEdges());
-
-        solveFirstFit(graph);
-        solveWelshPowell(graph);
-        solveLargestDegreeOrdering(graph);
+     //   solveFirstFit(graph);
+     //    solveWelshPowell(graph);
+     //    solveLargestDegreeOrdering(graph);
         solveDegreeOfSaturation(graph);
-        solveRecursivelyLargestFirst(graph);
+     //   solveRecursivelyLargestFirst(graph);
     }
 
     public static void printArray(int[] array) {
@@ -24,65 +24,27 @@ public class Testing {
         System.out.println();
     }
 
-    public static void printMap(Map<Integer, Integer> colorSet) {
+    public static void printMap(Map<Integer, Integer> colorSet, FileWriter fileWriter) throws IOException {
         for (Integer key: colorSet.keySet()) {
-            System.out.print(colorSet.get(key) + " ");
+            fileWriter.write(colorSet.get(key) + " ");
         }
     }
 
-    public static void solveFirstFit(Graph graph) {
-        System.out.println("--- First Fit ---");
-        FirstFitAlgorithm firstFitAlgorithm = new FirstFitAlgorithm(graph);
 
-        firstFitAlgorithm.fillColorMap();
-
-        System.out.println(firstFitAlgorithm.getColor());
-
-        printMap(firstFitAlgorithm.getColorSet());
-    }
-
-    public static void solveWelshPowell(Graph graph) {
-        System.out.println("\n--- Welsh Powell ---");
-        WelshPowellAlgorithm wp = new WelshPowellAlgorithm(graph);
-
-        wp.fillColorMap();
-
-        System.out.println(wp.getColor());
-
-        printMap(wp.getColorSet());
-    }
-
-    public static void solveLargestDegreeOrdering(Graph graph) {
-        System.out.println("\n--- Largest Degree Ordering ---");
-        LargestDegreeOrdering ldo = new LargestDegreeOrdering(graph);
-
-        ldo.fillColorMap();
-
-        System.out.println(ldo.getColor());
-
-        printMap(ldo.getColorSet());
-    }
-
-    public static void solveDegreeOfSaturation(Graph graph) {
-        System.out.println("\n--- Degree of Saturation ---");
+    public static void solveDegreeOfSaturation(Graph graph) throws IOException {
         DegreeOfSaturation degreeOfSaturation = new DegreeOfSaturation(graph);
 
         degreeOfSaturation.startProcess();
 
-        System.out.println(degreeOfSaturation.getColor());
+        File file = new File("output.txt");
+        FileWriter fileWriter = new FileWriter(file);
 
-        printMap(degreeOfSaturation.getColorSet());
-    }
+        fileWriter.write(String.valueOf(degreeOfSaturation.getColor()));
+        fileWriter.write(System.lineSeparator());
 
-    public static void solveRecursivelyLargestFirst(Graph graph) {
-        System.out.println("\n--- Recursively Largest First ---");
-        RecursiveLargestFirst recursiveLargestFirst = new RecursiveLargestFirst(graph);
+        printMap(degreeOfSaturation.getColorSet(), fileWriter);
 
-        recursiveLargestFirst.startProcess();
-
-        System.out.println(recursiveLargestFirst.getColor() + 1);
-
-        printMap(recursiveLargestFirst.getColorSet());
+        fileWriter.close();
     }
 
 }
