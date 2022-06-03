@@ -1,11 +1,11 @@
 import java.util.*;
 
 public class DegreeOfSaturation {
-    private Map<Integer, Integer> colorSet;
-    private Map<int[], Integer> arrayMap;
-    private Graph graph;
+    private final Map<Integer, Integer> colorSet;
+    private final Map<int[], Integer> arrayMap;
+    private final Graph graph;
     private int color;
-    private PriorityQueue<int[]> sortedGraph;
+    private final PriorityQueue<int[]> sortedGraph;
 
     public DegreeOfSaturation(Graph graph) {
         this.colorSet = new HashMap<>();
@@ -118,41 +118,8 @@ public class DegreeOfSaturation {
         return colorSet;
     }
 
-    public void setColorSet(Map<Integer, Integer> colorSet) {
-        this.colorSet = colorSet;
-    }
-
-    public Map<int[], Integer> getArrayMap() {
-        return arrayMap;
-    }
-
-    public void setArrayMap(Map<int[], Integer> arrayMap) {
-        this.arrayMap = arrayMap;
-    }
-
-    public Graph getGraph() {
-        return graph;
-    }
-
-    public void setGraph(Graph graph) {
-        this.graph = graph;
-    }
 
     public int getColor() {
         return color;
     }
-
-    public void setColor(int color) {
-        this.color = color;
-    }
-
-    public PriorityQueue<int[]> getSortedGraph() {
-        return sortedGraph;
-    }
-
-    public void setSortedGraph(PriorityQueue<int[]> sortedGraph) {
-        this.sortedGraph = sortedGraph;
-    }
-
-
 }
