@@ -2,13 +2,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.Map;
 import java.io.IOException;
-
-
 public class Testing {
     public static void main(String[] args) throws IOException {
         Graph graph = new Graph();
 
-        graph.readFile("sample2.txt");
+        graph.readFile("test4.txt");
 
         solveDegreeOfSaturation(graph);
     }
@@ -25,7 +23,7 @@ public class Testing {
 
         degreeOfSaturation.startProcess();
 
-        File file = new File("output.txt");
+        File file = new File("output4.txt");
         FileWriter fileWriter = new FileWriter(file);
 
         fileWriter.write(String.valueOf(degreeOfSaturation.getColor()));
