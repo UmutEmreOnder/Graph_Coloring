@@ -11,7 +11,7 @@
   followed:
   1. Adjacent vertices of the selected vertex vi are found
   from adjacency matrix. Adjacent vertices are added to
-  the adjacent set U. ( U = {u1 , u2 , ... ... . , ut } )
+  the adjacent set U. ( U = {u1 , u2 , ... ... . , ut })
   
   2. The vertices which are not adjacent vertices of the
   selected vertex vi are found from adjacency matrix.
@@ -41,9 +41,9 @@
 
 # Compare With Real Answers
 
-|  Test File  | Number of Vertices | Number of Edges | Real Answer | Largest Degree Order's Answer |
-|:-----------:|:------------------:|:---------------:|:-----------:|:-----------------------------:|
-|  test.txt   |         5          |        5        |      3      |               3               |
-| sample1.txt |         87         |       812       |     11      |              11               |
-| sample2.txt |        1000        |      24500      |     50      |              113              |
-| sample3.txt |        500         |      58862      |     122     |              130              |
+|  Test File  | Number of Vertices | Number of Edges | Real Answer | Recursive Largest First's Answer |
+|:-----------:|:------------------:|:---------------:|:-----------:|:--------------------------------:|
+|  test.txt   |         5          |        5        |      3      |                3                 |
+| sample1.txt |         87         |       812       |     11      |                11                |
+| sample2.txt |        1000        |      24500      |     50      |               113                |
+| sample3.txt |        500         |      58862      |     122     |               134                |
