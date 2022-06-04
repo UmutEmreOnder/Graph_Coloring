@@ -1,31 +1,35 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 public class Testing {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Graph graph = new Graph();
 
-        graph.readFile("sample3.txt");
+        graph.readFile("test4.txt");
 
         RecursiveLargestFirst recursiveLargestFirst = new RecursiveLargestFirst(graph);
 
         recursiveLargestFirst.startProcess();
 
-        System.out.println(recursiveLargestFirst.getColor() + 1);
+        File file = new File("output4.txt");
+        FileWriter fileWriter = new FileWriter(file);
 
-        printMap(recursiveLargestFirst.getColorSet());
+        fileWriter.write(String.valueOf(recursiveLargestFirst.getColor() + 1));
+
+        fileWriter.write(System.lineSeparator());
+
+        printMap(recursiveLargestFirst.getColorSet(), fileWriter);
+
+        fileWriter.close();
     }
 
-    public static void printArray(List<Integer> array) {
-        for (Integer integer : array) {
-            System.out.print((integer + 1) + " ");
-        }
-        System.out.println();
-    }
 
-    public static void printMap(Map<Integer, Integer> colorSet) {
+    public static void printMap(Map<Integer, Integer> colorSet, FileWriter fileWriter) throws IOException {
         for (Integer key: colorSet.keySet()) {
-            System.out.print(colorSet.get(key) + " ");
+            fileWriter.write(colorSet.get(key) + " ");
         }
     }
 }
