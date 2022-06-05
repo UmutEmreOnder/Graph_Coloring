@@ -18,7 +18,7 @@ After compiling every ```.java``` file, write ```java Testing <fileName>.txt```.
 
 E.g. --> ```java Testing test1.txt``` will create ```output1.txt```. 
 
-![](RunGif/gif.gif)
+![](RunGif/gif1.gif)
 
 ## Via IDE
 
