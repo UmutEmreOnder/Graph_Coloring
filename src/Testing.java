@@ -7,13 +7,21 @@ public class Testing {
     public static void main(String[] args) throws IOException {
         Graph graph = new Graph();
 
-        graph.readFile("test4.txt");
+        String fileName = args.length != 0 ? args[0] : "test1.txt";
+
+        graph.readFile(fileName);
 
         RecursiveLargestFirst recursiveLargestFirst = new RecursiveLargestFirst(graph);
 
         recursiveLargestFirst.startProcess();
 
-        File file = new File("output4.txt");
+        printToFile(fileName, recursiveLargestFirst);
+    }
+
+    public static void printToFile(String fileName, RecursiveLargestFirst recursiveLargestFirst) throws IOException {
+        String outputName = "output" + fileName.charAt(fileName.length() - 5) + ".txt";
+
+        File file = new File(outputName);
 
         FileWriter fileWriter = new FileWriter(file);
 
