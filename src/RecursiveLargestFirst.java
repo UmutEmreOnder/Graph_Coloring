@@ -1,13 +1,13 @@
 import java.util.*;
 
-public class DegreeOfSaturation {
+public class RecursiveLargestFirst {
     private final Map<Integer, Integer> colorSet;
     private final Map<int[], Integer> arrayMap;
     private final Graph graph;
     private int color;
     private final PriorityQueue<int[]> sortedGraph;
 
-    public DegreeOfSaturation(Graph graph) {
+    public RecursiveLargestFirst(Graph graph) {
         this.colorSet = new HashMap<>();
         this.arrayMap = new HashMap<>();
         this.graph = graph;
@@ -28,51 +28,90 @@ public class DegreeOfSaturation {
         return degree;
     }
 
-
     public void startProcess() {
         fillArrayMap();
         sortArraysByDegree();
-        fillColorMap();
+
+        int ID = this.arrayMap.get(this.sortedGraph.poll());
+        fillColorMap(ID);
     }
 
-    public void fillColorMap() {
-        colorFirstOne();
+    public void fillColorMap(int ID) {
 
-        while (this.colorSet.size() != this.graph.getNumVertices()) {
-            int ID = findMaxDiffAdjacentColorOfUncoloredVertex();
+        this.colorSet.put(ID, color);
+        int selected = ID;
 
-            for (int i = 0; i <= color; i++) {
-                boolean valid = isValid(ID, i, this.graph.getNumVertices());
+        List<Integer> adjacent = new ArrayList<>();
+        for (int i = 0; i < this.graph.getNumVertices(); i++) {
+            if (isAdjacent(selected, i)) adjacent.add(i);
+        }
 
-                if (valid) {
-                    this.colorSet.put(ID, i);
-                    if (i == color) color++;
-                    break;
+        while (true) {
+            List<Integer> notAdjacent = new ArrayList<>();
+            for (int i = 0; i < this.graph.getNumVertices(); i++) {
+                if (!adjacent.contains(i) && !this.colorSet.containsKey(i)) notAdjacent.add(i);
+            }
+
+
+            int max = 0;
+
+            for (int i = 0; i < notAdjacent.size(); i++) {
+                int count = 0;
+                for (int k = 0; k < this.graph.getNumVertices(); k++) {
+                    if (isAdjacent(notAdjacent.get(i), k) && !notAdjacent.contains(k)) {
+                        count++;
+                    }
+                }
+
+                if (max < count) {
+                    max = count;
+                    selected = notAdjacent.get(i);
                 }
             }
+
+            this.colorSet.put(selected, color);
+
+            for (int i = 0; i < this.graph.getNumVertices(); i++) {
+                if (isAdjacent(selected, i) && notAdjacent.contains(i)) {
+                    notAdjacent.remove(Integer.valueOf(i));
+                    adjacent.add(i);
+                }
+            }
+
+            notAdjacent.remove(Integer.valueOf(selected));
+            adjacent.add(selected);
+
+            if (notAdjacent.isEmpty()) {
+                break;
+            }
+        }
+
+
+        if (this.colorSet.size() != this.graph.getNumVertices()) {
+            color++;
+            fillColorMap(findUncoloredWithMaxAdjacent());
         }
     }
 
-    public int findMaxDiffAdjacentColorOfUncoloredVertex() {
+    public int findUncoloredWithMaxAdjacent() {
         int ID = 0;
         int max = 0;
 
 
         for (int i = 0; i < this.graph.getNumVertices(); i++) {
-            Set<Integer> colors = new HashSet<>();
-            if (colorSet.containsKey(i)) continue;
+            if (this.colorSet.containsKey(i)) continue;
 
+            int count = 0;
             for (int k = 0; k < this.graph.getNumVertices(); k++) {
-                if (isAdjacent(i, k) && this.colorSet.containsKey(k)) {
-                    colors.add(this.colorSet.get(k));
-                }
+                if (isAdjacent(i, k)) count++;
             }
 
-            if (max < colors.size()) {
+            if (count > max) {
+                max = count;
                 ID = i;
-                max = colors.size();
             }
-            else if (max == colors.size()) {
+
+            if (count == max) {
                 if (calculateDegree(this.graph.getAdjacencyMatrix()[ID], ID) < calculateDegree(this.graph.getAdjacencyMatrix()[i], i)) {
                     ID = i;
                 }
@@ -81,22 +120,6 @@ public class DegreeOfSaturation {
 
         return ID;
     }
-
-    public void colorFirstOne() {
-        int ID = this.arrayMap.get(this.sortedGraph.poll());
-        this.colorSet.put(ID, color++);
-    }
-
-    public boolean isValid(int ID, int value, int length) {
-        for (int k = 0; k < length; k++) {
-            if (isAdjacent(ID, k) && this.colorSet.containsKey(k) && this.colorSet.get(k) == value) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
 
     public void fillArrayMap() {
         for (int i = 0; i < this.graph.getNumVertices(); i++) {
@@ -117,7 +140,6 @@ public class DegreeOfSaturation {
     public Map<Integer, Integer> getColorSet() {
         return colorSet;
     }
-
 
     public int getColor() {
         return color;
